@@ -42,8 +42,8 @@ app.post('/st_main', (req, res)=>{
 
   connection.query('select * from user where user_id = ? and user_psw = ?',
   [id ,body.psw], (error, results, fields) =>{
-    if(error)  {
-      res.send("<script>alert('아이디를 다시 확인해주세요.'); location.href='./';</script>");
+    if(error || results[0] == undefined)  {
+      res.send("<script>alert('아이디와 비밀번호를 다시 확인해주세요.'); location.href='./';</script>");
       return error; }
     res.redirect('st_main');
   });
@@ -66,9 +66,9 @@ app.post('/tr_main', (req, res)=>{
   const body = req.body;
 
   connection.query('select * from educater where tr_id = ? and tr_pw = ?',
-   [body.uname, body.psw], () =>{
-     if(error)  {
-       res.send("<script>alert('아이디를 다시 확인해주세요.'); location.href='./tr';</script>");
+   [body.uname, body.psw], (error, results, fields) =>{
+     if(error || results[0] == undefined)  {
+       res.send("<script>alert('아이디와 비밀번호를 다시 확인해주세요.'); location.href='./tr';</script>");
        return error; }
     res.redirect('tr_main');
   });
