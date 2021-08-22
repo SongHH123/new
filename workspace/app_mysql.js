@@ -4,6 +4,7 @@ const fs = require('fs');
 const ejs = require('ejs');
 const bodyParser = require('body-parser');
 
+
 const app = express();
 
 const connection = mysql.createConnection({
@@ -14,28 +15,35 @@ const connection = mysql.createConnection({
   port: '3306',
 });
 
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.engine('html', require('ejs').renderFile);
 app.engine('workspace', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.set('view engine', 'workspace');
+app.set('view engine', 'ejs');
+app.set('views', './html');
 
 app.use(express.static('html'));
 app.use(express.static('workspace'));
 
-app.use(bodyParser.urlencoded({
-  extended: false,
-}));
-
 app.listen(4000, () => {
-  console.log(`Example app listening at http://localhost:4000/login.html`);
+  console.log(`Example app listening at http://localhost:4000`);
     connection.connect();
 });
 
-app.get('/login.html', (request, response) => {
-  const body = request.body;
-  connection.query('SELECT * FROM user where user_id = ? and user_pw = ?',
-    [document.getElementById("name_id").value, document.getElementById("psw_id").value], ()=>{
-      response.redirect('/st_main.html');
-    });
-  }
-);
+app.get('/', (req, res)=>{
+  res.render('index');
+});
+
+app.get('/tr', (req, res)=>{
+  res.render('index_tr');
+});
+
+app.post('/st_main', (req, res)=>{
+  res.render('st_main');
+});
+
+app.post('/tr_main', (req, res)=>{  
+  res.render('tr_main');
+});
