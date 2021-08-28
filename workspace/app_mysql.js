@@ -3,6 +3,7 @@ const express = require('express');
 const fs = require('fs');
 const ejs = require('ejs');
 const bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 
 const connection = mysql.createConnection({
   host:'localhost',
@@ -33,6 +34,7 @@ app.listen(4000, () => {
 
 //학생 서버
 app.get('/', (req, res)=>{
+  res.clearCookie('id'); //쿠키 초기화
   res.render('index');
 });
 
@@ -44,12 +46,15 @@ app.post('/st_main', (req, res)=>{
   [id ,body.psw], (error, results, fields) =>{
     if(error || results[0] == undefined)  {
       res.send("<script>alert('아이디와 비밀번호를 다시 확인해주세요.'); location.href='./';</script>");
-      return error; }
-    res.redirect('st_main');
+      return error; } else{
+        res.cookie('id', id);
+        res.redirect('st_main');
+      }
   });
 });
 
 app.get('/st_main', (req, res)=>{
+
   res.render('st_main');
 })
 
@@ -59,6 +64,7 @@ app.get('/st_attendance', (req, res)=>{
 
 //선생님 서버
 app.get('/tr', (req, res)=>{
+  res.clearCookie('id'); //쿠키 초기화
   res.render('index_tr');
 });
 
@@ -69,8 +75,10 @@ app.post('/tr_main', (req, res)=>{
    [body.uname, body.psw], (error, results, fields) =>{
      if(error || results[0] == undefined)  {
        res.send("<script>alert('아이디와 비밀번호를 다시 확인해주세요.'); location.href='./tr';</script>");
-       return error; }
-    res.redirect('tr_main');
+       return error; }else{
+         res.cookie('id', id);
+         res.redirect('tr_main');
+       }
   });
 });
 
