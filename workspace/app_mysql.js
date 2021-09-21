@@ -57,13 +57,8 @@ app.post('/st_main', (req, res)=>{
 app.get('/st_main', (req, res)=>{
   var user = req.headers.cookie.split('=', 2);
   user = user[1];
-  if(user == undefined){ res.send("<script>alert('로그인 정보가 없습니다.'); location.href='./';</script>"); }
-
-  connection.query('select * from user_sub where user_id = ?',[user], (error, results, fields) => {
-    if(error) throw error;
-    console.log(results);
-    res.render('st_main');
-  });
+  if(user == undefined)  { res.send("<script>alert('로그인 정보가 없습니다.'); location.href='./tr';</script>");  }
+  res.render('st_main');
 });
 
 app.get('/st_attendance', (req, res)=>{
