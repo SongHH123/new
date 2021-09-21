@@ -36,6 +36,7 @@ app.listen(4000, () => {
 //학생 서버
 app.get('/', (req, res)=>{
   res.clearCookie('id'); //쿠키 초기화
+  res.clearCookie();
   res.render('index');
 });
 
@@ -54,17 +55,19 @@ app.post('/st_main', (req, res)=>{
   });
 });
 
-app.get('/st_main', (req, res)=>{
-  var user = req.headers.cookie.split('=', 2);
-  user = user[1];
-  if(user == undefined)  { res.send("<script>alert('로그인 정보가 없습니다.'); location.href='./tr';</script>");  }
+app.get('/st_main', (req, res, error)=>{
+  var user = req.headers.cookie;
+  if(user == undefined)  { res.send("<script>alert('로그인 정보가 없습니다.'); location.href='./';</script>");  }
+  user = user.split('=', 2);
+  user = user[1];  //이후 DB에서 정보 확인을 위함
   res.render('st_main');
 });
 
-app.get('/st_attendance', (req, res)=>{
-  var user = req.headers.cookie.split('=', 2);
-  user = user[1];
-  if(user == undefined){ res.send("<script>alert('로그인 정보가 없습니다.'); location.href='./';</script>");  }
+app.get('/st_attendance', (req, res, error)=>{
+  var user = req.headers.cookie;
+  if(user == undefined)  { res.send("<script>alert('로그인 정보가 없습니다.'); location.href='./';</script>");  }
+  user = user.split('=', 2);
+  user = user[1];  //이후 DB에서 정보 확인을 위함
   res.render('st_attendance');
 });
 
@@ -87,30 +90,34 @@ app.post('/tr_main', (req, res)=>{
   });
 });
 
-app.get('/tr_main', (req, res)=>{
-  var user = req.headers.cookie.split('=', 2);
-  user = user[1];
+app.get('/tr_main', (req, res, error)=>{
+  var user = req.headers.cookie;
   if(user == undefined)  { res.send("<script>alert('로그인 정보가 없습니다.'); location.href='./tr';</script>");  }
+  user = user.split('=', 2);
+  user = user[1];  //이후 DB에서 정보 확인을 위함
   res.render('tr_main');
 })
 
-app.get('/tr_student', (req, res)=>{
-  var user = req.headers.cookie.split('=', 2);
-  user = user[1];
+app.get('/tr_student', (req, res, error)=>{
+  var user = req.headers.cookie;
   if(user == undefined)  { res.send("<script>alert('로그인 정보가 없습니다.'); location.href='./tr';</script>");  }
+  user = user.split('=', 2);
+  user = user[1];  //이후 DB에서 정보 확인을 위함
   res.render('tr_student');
 })
 
-app.get('/tr_contents', (req, res)=>{
-  var user = req.headers.cookie.split('=', 2);
-  user = user[1];
+app.get('/tr_contents', (req, res, error)=>{
+  var user = req.headers.cookie;
   if(user == undefined)  { res.send("<script>alert('로그인 정보가 없습니다.'); location.href='./tr';</script>");  }
+  user = user.split('=', 2);
+  user = user[1];  //이후 DB에서 정보 확인을 위함
   res.render('tr_contents');
 })
 
-app.get('/tr_attendance', (req, res)=>{
-  var user = req.headers.cookie.split('=', 2);
-  user = user[1];
+app.get('/tr_attendance', (req, res, error)=>{
+  var user = req.headers.cookie;
   if(user == undefined)  { res.send("<script>alert('로그인 정보가 없습니다.'); location.href='./tr';</script>");  }
+  user = user.split('=', 2);
+  user = user[1];  //이후 DB에서 정보 확인을 위함
   res.render('tr_attendance');
 })
